@@ -21,7 +21,7 @@ Output: true
 func main() {
 }
 
-func Merge(nums []int) bool {
+func ContainsDuplicates(nums []int) bool {
 	val := make(map[int]struct{})
 	for _, v := range nums {
 		if _, ok := val[v]; ok {
