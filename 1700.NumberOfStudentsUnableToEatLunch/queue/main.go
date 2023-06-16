@@ -31,62 +31,60 @@ Hence all students are able to eat.
 */
 
 type Queue struct {
-	node  *node
-	last  *node
-	first *node
+	node *node
+	last *node
 }
 
 type node struct {
-	next *node
 	prev *node
 	val  int
 }
 
-func (q *Queue) BuildQueue(students []int) {
-	//node = q.node
-	for _, student := range students {
-		if q.first == nil {
-			node := &node{
-				next: nil,
+func (this *Queue) Empty() bool {
+	return this.node == nil
+}
+
+func (this *Queue) BuildQueue(students []int) {
+	for i := len(students) - 1; i >= 0; i-- {
+		if this.Empty() {
+			this.node = &node{
 				prev: nil,
-				val:  student,
+				val:  students[i],
 			}
-			q.first, q.last, q.node = node, node, node
-		} else {
-			node := &node{
-				next: q.node,
-				val:  student,
-			}
-			q.node = node
+			this.last = this.node
+			continue
+		}
+
+		prev := this.node
+		this.node = &node{
+			prev: prev,
+			val:  students[i],
 		}
 	}
 }
 
 func main() {
-	CountStudents([]int{1, 1, 0, 0}, []int{0, 1, 0, 1})
+	fmt.Println(CountStudents([]int{1, 1, 0, 0}, []int{0, 1, 0, 1}))
 }
 
 func CountStudents(students []int, sandwiches []int) int {
-	queue := &Queue{
-		last:  nil,
-		first: nil,
-	}
+	queue := &Queue{}
 	queue.BuildQueue(students)
 
 	var j = 0
-	for queue.first != nil {
-		if queue.first.val == sandwiches[j] {
-			queue.first = queue.first.next
+
+	for queue.node.prev != nil {
+		if queue.node.val == sandwiches[j] {
+			queue.node = queue.node.prev
 			j++
 			continue
 		}
 
-		queue.last = queue.first
-		queue.first = queue.first.next
-		queue.last.next = nil
-
+		queue.last.prev = queue.node
+		queue.node = queue.node.prev
+		queue.last = queue.last.prev
+		queue.last.prev = nil
 	}
 
-	fmt.Println(j)
-	return 0
+	return len(sandwiches) - (j + 1)
 }
