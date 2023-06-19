@@ -23,6 +23,36 @@ func TestKthLargestElement(t *testing.T) {
 			k:    4,
 			want: 4,
 		},
+		{
+			nums: []int{-1, 2, 0},
+			k:    3,
+			want: -1,
+		},
+		{
+			nums: []int{1},
+			k:    1,
+			want: 1,
+		},
+		{
+			nums: []int{2, 1},
+			k:    1,
+			want: 2,
+		},
+		{
+			nums: []int{3, 1, 2, 4},
+			k:    2,
+			want: 3,
+		},
+		{
+			nums: []int{3, 3, 3, 3, 4, 3, 3, 3, 3},
+			k:    1,
+			want: 4,
+		},
+		{
+			nums: []int{7, 6, 5, 4, 3, 2, 1},
+			k:    5,
+			want: 3,
+		},
 	}
 
 	for _, tc := range tests {

@@ -21,36 +21,26 @@ Output: [0,1,2]
 //}
 //
 func findKthLargest(nums []int, k int) int {
-	//quickSelect(nums, 0, len(nums)-1, k)
-
-	//return nums[len(nums)-k]
-
-	return 0
+	return quickSelect(nums, 0, len(nums)-1, len(nums)-k)
 }
 
-//
-//func quickSelect(arr []int, s, e, k int) int {
-//	pivot := arr[e]
-//	left := s
-//	for i := s; i < e; i++ {
-//		if pivot > arr[i] {
-//			tmp := arr[left]
-//			arr[left] = arr[i]
-//			arr[i] = tmp
-//			left++
-//		}
-//	}
-//
-//	arr[e] = arr[left]
-//	arr[left] = pivot
-//
-//	if left == (e - left + 1) {
-//		return pivot
-//	}
-//
-//	if k > (e - left + 1) {
-//		return quickSelect(arr, s, left-1, k)
-//	}
-//
-//	return quickSelect(arr, left+1, e, k)
-//}
+func quickSelect(arr []int, s, e, k int) int {
+	pivot := arr[e]
+	left := s
+	for i := s; i < e; i++ {
+		if pivot > arr[i] {
+			arr[left], arr[i] = arr[i], arr[left]
+			left++
+		}
+	}
+
+	arr[e], arr[left] = arr[left], arr[e]
+
+	if left > k {
+		return quickSelect(arr, s, left-1, k)
+	} else if left < k {
+		return quickSelect(arr, left+1, e, k)
+	} else {
+		return pivot
+	}
+}
